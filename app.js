@@ -2,66 +2,69 @@ window.addEventListener("load", (e) => {
   let form = document.querySelector("#form");
   let name = document.querySelector(".name");
   let number = document.querySelector(".number");
-  let city = document.querySelector(".city");
-  let rollNo = document.querySelector(".rollnum");
-  let table = document.querySelector(".table")
+  let course = document.querySelector(".course");
+  let seatNumber = document.querySelector(".seat-number")
+  let table = document.querySelector(".table");
 
-  form.addEventListener("submit", (evt) => {
-      evt.preventDefault();
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-      let nameInput = name.value;
-      let numberInput = number.value;
-      let cityInput = city.value;
-      let rollInput = rollNo.value;
+    let nameInput = name.value;
+    let numberInput = number.value;
+    let courseInput = course.value;
+    let seatNumberInput = seatNumber.value;
 
-      if (!nameInput || !numberInput || !cityInput || !rollInput) {
-          alert("Please fill all boxes");
-      }
-      else {
-          let tableRow = document.createElement("tr");
-          tableRow.classList.add("tablerow");
+    localStorage.setItem('attendance', JSON.stringify(nameInput, numberInput, courseInput, seatNumberInput));
 
-          let snData = document.createElement("td");
-          let rowArray = document.getElementsByClassName("tablerow");
-          let serNum = rowArray.length + 1;
-          snData.textContent = serNum;
-          let nameData = document.createElement("td");
-          nameData.textContent = nameInput;
+    if (!nameInput || !numberInput || !courseInput || !seatNumberInput) {
+      alert('Kindly fill all boxes before proceeding!')
+    }
 
-          let numberData = document.createElement("td");
-          numberData.textContent = numberInput;
+    let tableRow = document.createElement('tr');
+    tableRow.classList.add('tablerow');
 
-          let cityData = document.createElement("td");
-          cityData.textContent = cityInput;
+    let serialData = document.createElement('td');
+    let rowArray = document.getElementsByClassName('tablerow');
+    let serialNumber = rowArray.length + 1;
+    serialData.textContent = serialNumber;
 
-          let rollNoData = document.createElement("td");
-          rollNoData.textContent = rollInput;
-          let attendanceData = document.createElement("td");
-          let presentBtn = document.createElement("input");
-          presentBtn.type = "button";
-          presentBtn.value = "Present";
-          let absentBtn = document.createElement("input");
-          absentBtn.type = "button";
-          absentBtn.value = "Absent";
+    let nameData = document.createElement('td');
+    nameData.textContent = nameInput;
 
-          table.appendChild(tableRow);
-          tableRow.append(snData, nameData, numberData, cityData, rollNoData, attendanceData)
-          attendanceData.append(presentBtn, absentBtn)
+    let numberData = document.createElement('td');
+    numberData.textContent = numberInput;
 
-          name.value = "";
-          num.value = "";
-          city.value = "";
-          rollNum.value = "";
+    let courseData = document.createElement('td');
+    courseData.textContent = courseInput;
 
-          presentBtn.addEventListener("click", (e) => {
-              absentBtn.remove();
-              presentBtn.value = "Present";
-          })
+    let seatNumberData = document.createElement('td');
+    seatNumberData.textContent = seatNumberInput;
 
-          absentBtn.addEventListener("click", (e) => {
-                  presentBtn.remove();
-                  absentBtn.value = "Absent"
-          })
-      }
+    let attendanceData = document.createElement('td');
+    let presentBtn = document.createElement('button');
+    presentBtn.textContent = 'Present';
+    let absentBtn = document.createElement('button');
+    absentBtn.textContent = 'Absent';
+
+    table.appendChild(tableRow);
+    tableRow.append(serialData, nameData, numberData, courseData, seatNumberData, attendanceData);
+    attendanceData.append(presentBtn, absentBtn);
+
+    name.value = '';
+    number.value = '';
+    course.value = '';
+    seatNumber.value = '';
+
+    presentBtn.addEventListener("click", (e) => {
+      presentBtn.style.backgroundColor = "limegreen";
+      absentBtn.remove();
+    })
+
+    absentBtn.addEventListener("click", (e) => {
+      absentBtn.style.backgroundColor = "crimson";
+      presentBtn.remove();
+    })
+
   })
+
 })
